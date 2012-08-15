@@ -1,3 +1,14 @@
+# TODO
+# - pldize:
+#  - remove fedora macro junk
+#  - remove fedora conditions
+#  - add missing files
+#  - use pld path macros
+#  - use pld deps
+#  - tests bcond and move to proper place from %check
+#  - file attrs
+#  - drop changelog
+
 %{!?php_inidir:%global php_inidir %{_sysconfdir}/php.d/}
 %{?el5:%global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)}
 %{!?python_sitelib:%global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}

@@ -13,12 +13,12 @@
 
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
-Version:	0.7.0
+Version:	0.8.1
 Release:	0.1
 License:	LGPLv3+
 Group:		Libraries
 URL:		http://www.kolab.org
-Source0:	http://git.kolab.org/libkolabxml/snapshot/%{name}-%{version}.tar.gz
+Source0:	http://mirror.kolabsys.com/pub/releases/libkolabxml-0.8.1.tar.gz
 Patch1:		%{name}-0.7.0-fix-build-without-fpermissive.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %if 0%{?rhel} < 6 && 0%{?fedora} < 15

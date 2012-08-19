@@ -5,7 +5,7 @@
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	0.8.1
-Release:	1
+Release:	2
 License:	LGPL v3+
 Group:		Libraries
 URL:		http://www.kolab.org/
@@ -106,12 +106,11 @@ cd tests
 ./parsingtest ||:
 cd ..
 php -d enable_dl=On -dextension=src/php/kolabformat.so src/php/test.php ||:
-python src/python/test.py ||:
+%{__python} src/python/test.py ||:
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} -C build install \
 	INSTALL='install -p' \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -121,14 +120,19 @@ mv $RPM_BUILD_ROOT%{php_extensiondir}/kolabformat.php $RPM_BUILD_ROOT%{php_data_
 
 install -d $RPM_BUILD_ROOT%{php_sysconfdir}
 cat > $RPM_BUILD_ROOT%{php_sysconfdir}/kolabformat.ini <<EOF
+; Enable kolabformat extension module
 extension=kolabformat.so
 EOF
+
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+%py_comp $RPM_BUILD_ROOT%{py_sitedir}
+%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -145,10 +149,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n php-kolabformat
 %defattr(644,root,root,755)
 %config(noreplace) %{php_sysconfdir}/kolabformat.ini
-%{php_extensiondir}/kolabformat.so
+%attr(755,root,root) %{php_extensiondir}/kolabformat.so
 %{php_data_dir}/kolabformat.php
 
 %files -n python-kolabformat
 %defattr(644,root,root,755)
+%attr(755,root,root) %{py_sitedir}/_kolabformat.so
 %{py_sitedir}/kolabformat.py[co]
-%{py_sitedir}/_kolabformat.so

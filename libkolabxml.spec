@@ -7,6 +7,7 @@ License:	LGPLv3+
 Group:		Libraries
 URL:		http://www.kolab.org
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
+# Source0-md5:	a02541b35153334c69ee1845dfe464c6
 BuildRequires:	QtCore-devel
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6

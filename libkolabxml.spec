@@ -1,11 +1,14 @@
-%bcond_without	tests
+#
+# Conditional build:
+%bcond_without	tests		# build without tests
+
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	0.8.1
 Release:	1
-License:	LGPLv3+
+License:	LGPL v3+
 Group:		Libraries
-URL:		http://www.kolab.org
+URL:		http://www.kolab.org/
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
 # Source0-md5:	a02541b35153334c69ee1845dfe464c6
 BuildRequires:	QtCore-devel
@@ -20,6 +23,7 @@ BuildRequires:	libuuid-devel
 BuildRequires:	php-devel >= 5.3
 BuildRequires:	python-devel
 BuildRequires:	qt4-build
+BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	swig
 BuildRequires:	swig-php
 BuildRequires:	xerces-c-devel
@@ -55,7 +59,7 @@ Development headers for the Kolab XML libraries.
 
 %package -n php-kolabformat
 Summary:	PHP bindings for libkolabxml
-Group:		Libraries
+Group:		Development/Languages/PHP
 Requires:	%{name} = %{version}-%{release}
 %{?requires_php_extension}
 
@@ -78,7 +82,8 @@ the bindings provided through libkolabxml.
 %build
 install -d build
 cd build
-%{cmake} -Wno-fatal-errors -Wno-errors \
+%cmake \
+	-Wno-fatal-errors -Wno-errors \
 	-DCMAKE_SKIP_RPATH=ON \
 	-DCMAKE_PREFIX_PATH=%{_libdir} \
 	-DINCLUDE_INSTALL_DIR=%{_includedir}/kolabxml \
@@ -94,7 +99,7 @@ cd ..
 %if %{with tests}
 cd build
 # Make sure libkolabxml.so.* is found, otherwise the tests fail
-export LD_LIBRARY_PATH=$( pwd )/src/
+export LD_LIBRARY_PATH=$(pwd)/src
 cd tests
 ./bindingstest ||:
 ./conversiontest ||:
@@ -108,14 +113,14 @@ python src/python/test.py ||:
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} -C build install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	INSTALL='install -p'
+	INSTALL='install -p' \
+	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/%{_datadir}/php
-mv $RPM_BUILD_ROOT/%{php_extensiondir}/kolabformat.php $RPM_BUILD_ROOT/%{php_data_dir}/kolabformat.php
+install -d $RPM_BUILD_ROOT%{php_data_dir}
+mv $RPM_BUILD_ROOT%{php_extensiondir}/kolabformat.php $RPM_BUILD_ROOT%{php_data_dir}/kolabformat.php
 
-install -d $RPM_BUILD_ROOT/%{php_sysconfdir}/
-cat >$RPM_BUILD_ROOT/%{php_sysconfdir}/kolabformat.ini <<EOF
+install -d $RPM_BUILD_ROOT%{php_sysconfdir}
+cat > $RPM_BUILD_ROOT%{php_sysconfdir}/kolabformat.ini <<EOF
 extension=kolabformat.so
 EOF
 
@@ -140,10 +145,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n php-kolabformat
 %defattr(644,root,root,755)
 %config(noreplace) %{php_sysconfdir}/kolabformat.ini
-%{php_data_dir}/kolabformat.php
 %{php_extensiondir}/kolabformat.so
+%{php_data_dir}/kolabformat.php
 
 %files -n python-kolabformat
 %defattr(644,root,root,755)
-%{py_sitedir}/kolabformat.py*
+%{py_sitedir}/kolabformat.py[co]
 %{py_sitedir}/_kolabformat.so

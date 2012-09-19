@@ -5,7 +5,7 @@
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	0.8.1
-Release:	2
+Release:	3
 License:	LGPL v3+
 Group:		Libraries
 URL:		http://www.kolab.org/

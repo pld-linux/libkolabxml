@@ -5,7 +5,7 @@
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	0.8.1
-Release:	3
+Release:	4
 License:	LGPL v3+
 Group:		Libraries
 URL:		http://www.kolab.org/
@@ -84,6 +84,7 @@ install -d build
 cd build
 %cmake \
 	-Wno-fatal-errors -Wno-errors \
+	-DPHP4_EXECUTABLE=%{_bindir}/php \
 	-DCMAKE_SKIP_RPATH=ON \
 	-DCMAKE_PREFIX_PATH=%{_libdir} \
 	-DINCLUDE_INSTALL_DIR=%{_includedir}/kolabxml \

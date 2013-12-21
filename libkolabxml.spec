@@ -4,13 +4,13 @@
 
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
-Version:	0.8.1
-Release:	6
+Version:	1.0.1
+Release:	1
 License:	LGPL v3+
 Group:		Libraries
 URL:		http://www.kolab.org/
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	a02541b35153334c69ee1845dfe464c6
+# Source0-md5:	7adccfa0ed91ac954c815e8d13f334ee
 BuildRequires:	QtCore-devel
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6
@@ -26,6 +26,7 @@ BuildRequires:	qt4-build
 BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	swig
 BuildRequires:	swig-php
+BuildRequires:	swig-python
 BuildRequires:	xerces-c-devel
 BuildRequires:	xsd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -84,7 +85,7 @@ install -d build
 cd build
 %cmake \
 	-Wno-fatal-errors -Wno-errors \
-	-DPHP4_EXECUTABLE=%{_bindir}/php \
+	-DPHP_EXECUTABLE=%{_bindir}/php \
 	-DCMAKE_SKIP_RPATH=ON \
 	-DCMAKE_PREFIX_PATH=%{_libdir} \
 	-DINCLUDE_INSTALL_DIR=%{_includedir}/kolabxml \
@@ -139,7 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc DEVELOPMENT NEWS README
 %attr(755,root,root) %{_libdir}/libkolabxml.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkolabxml.so.0
+%attr(755,root,root) %ghost %{_libdir}/libkolabxml.so.1
 
 %files devel
 %defattr(644,root,root,755)

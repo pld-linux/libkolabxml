@@ -5,7 +5,7 @@
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.0.1
-Release:	2
+Release:	3
 License:	LGPL v3+
 Group:		Libraries
 URL:		http://www.kolab.org/
@@ -89,6 +89,7 @@ cd build
 	-DCMAKE_SKIP_RPATH=ON \
 	-DCMAKE_PREFIX_PATH=%{_libdir} \
 	-DINCLUDE_INSTALL_DIR=%{_includedir}/kolabxml \
+	-DLIB_INSTALL_DIR:PATH=%{_libdir} \
 	-DPYTHON_INCLUDE_DIRS=%{python_include} \
 	-DPHP_BINDINGS=ON \
 	-DPHP_INSTALL_DIR=%{php_extensiondir} \

@@ -20,7 +20,7 @@ BuildRequires:	kde4-kdelibs-devel
 BuildRequires:	kde4-kdepimlibs-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libuuid-devel
-BuildRequires:	%{php_name}-devel >= 45.3
+BuildRequires:	%{php_name}-devel >= 4:5.3
 BuildRequires:	python-devel
 BuildRequires:	qt4-build
 BuildRequires:	rpmbuild(macros) >= 1.600

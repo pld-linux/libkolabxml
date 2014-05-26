@@ -33,6 +33,7 @@ BuildRequires:	python-devel
 BuildRequires:	swig-python
 %endif
 %if %{with php}
+BuildRequires:	%{php_name}-cli
 BuildRequires:	%{php_name}-devel
 BuildRequires:	swig-php
 %endif
@@ -95,7 +96,7 @@ cd build
 	-DINCLUDE_INSTALL_DIR=%{_includedir}/kolabxml \
 	-DLIB_INSTALL_DIR:PATH=%{_libdir} \
 %if %{with php}
-	-DPHP_EXECUTABLE=%{_bindir}/php \
+	-DPHP_EXECUTABLE=%{__php} \
 	-DPHP_BINDINGS=ON \
 	-DPHP_INSTALL_DIR=%{php_extensiondir} \
 %endif

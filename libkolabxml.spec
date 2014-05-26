@@ -1,11 +1,12 @@
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
-
+#
+%define	min_php	4:5.3
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.0.1
-Release:	4
+Release:	5
 License:	LGPL v3+
 Group:		Libraries
 URL:		http://www.kolab.org/
@@ -20,7 +21,8 @@ BuildRequires:	kde4-kdelibs-devel
 BuildRequires:	kde4-kdepimlibs-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libuuid-devel
-BuildRequires:	%{php_name}-devel >= 4:5.3
+#BuildRequires:	%{php_name}-devel >= %{min_php}
+BuildRequires:	%{php_name}-devel
 BuildRequires:	python-devel
 BuildRequires:	qt4-build
 BuildRequires:	rpmbuild(macros) >= 1.600
@@ -49,7 +51,8 @@ Requires:	kde4-kdelibs-devel
 Requires:	kde4-kdepimlibs-devel
 Requires:	libstdc++-devel
 Requires:	libuuid-devel
-Requires:	%{php_name}-devel >= 5.3
+#Requires:	%{php_name}-devel >= %{min_php}
+Requires:	%{php_name}-devel
 Requires:	python-devel
 Requires:	swig
 Requires:	xerces-c-devel

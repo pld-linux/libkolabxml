@@ -1,17 +1,18 @@
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
-#
-%define	min_php	4:5.3
+%bcond_without	php		# PHP bindings
+%bcond_without	python		# Python bindings
+
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.0.1
 Release:	5
 License:	LGPL v3+
 Group:		Libraries
-URL:		http://www.kolab.org/
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
 # Source0-md5:	7adccfa0ed91ac954c815e8d13f334ee
+URL:		http://www.kolab.org/
 BuildRequires:	QtCore-devel
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6
@@ -21,16 +22,19 @@ BuildRequires:	kde4-kdelibs-devel
 BuildRequires:	kde4-kdepimlibs-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libuuid-devel
-#BuildRequires:	%{php_name}-devel >= %{min_php}
-BuildRequires:	%{php_name}-devel
-BuildRequires:	python-devel
 BuildRequires:	qt4-build
 BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	swig
-BuildRequires:	swig-php
-BuildRequires:	swig-python
 BuildRequires:	xerces-c-devel
 BuildRequires:	xsd
+%if %{with python}
+BuildRequires:	python-devel
+BuildRequires:	swig-python
+%endif
+%if %{with php}
+BuildRequires:	%{php_name}-devel
+BuildRequires:	swig-php
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -51,9 +55,6 @@ Requires:	kde4-kdelibs-devel
 Requires:	kde4-kdepimlibs-devel
 Requires:	libstdc++-devel
 Requires:	libuuid-devel
-#Requires:	%{php_name}-devel >= %{min_php}
-Requires:	%{php_name}-devel
-Requires:	python-devel
 Requires:	swig
 Requires:	xerces-c-devel
 Requires:	xsd
@@ -88,16 +89,20 @@ install -d build
 cd build
 %cmake \
 	-Wno-fatal-errors -Wno-errors \
-	-DPHP_EXECUTABLE=%{_bindir}/php \
 	-DCMAKE_SKIP_RPATH=ON \
 	-DCMAKE_PREFIX_PATH=%{_libdir} \
 	-DINCLUDE_INSTALL_DIR=%{_includedir}/kolabxml \
 	-DLIB_INSTALL_DIR:PATH=%{_libdir} \
-	-DPYTHON_INCLUDE_DIRS=%{python_include} \
+%if %{with php}
+	-DPHP_EXECUTABLE=%{_bindir}/php \
 	-DPHP_BINDINGS=ON \
 	-DPHP_INSTALL_DIR=%{php_extensiondir} \
+%endif
+%if %{with python}
 	-DPYTHON_BINDINGS=ON \
+	-DPYTHON_INCLUDE_DIRS=%{python_include} \
 	-DPYTHON_INSTALL_DIR=%{py_sitedir} \
+%endif
 	..
 %{__make}
 cd ..
@@ -110,11 +115,18 @@ cd tests
 ./bindingstest
 ./conversiontest
 ./parsingtest
-cd ../src/php
+cd ..
+%if %{with php}
+cd src/php
 php -d 'enable_dl=On' '-dextension=../../src/php/kolabformat.so' test.php
-cd ../python
+cd ..
+%endif
+%if %{with python}
+cd python
 # FIXME
 %{__python} test.py ||
+cd ..
+%endif
 %endif
 
 %install
@@ -123,18 +135,20 @@ rm -rf $RPM_BUILD_ROOT
 	INSTALL='install -p' \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{php_data_dir}
+%if %{with php}
+install -d $RPM_BUILD_ROOT{%{php_sysconfdir}/conf.d,%{php_data_dir}}
 mv $RPM_BUILD_ROOT%{php_extensiondir}/kolabformat.php $RPM_BUILD_ROOT%{php_data_dir}/kolabformat.php
-
-install -d $RPM_BUILD_ROOT%{php_sysconfdir}
-cat > $RPM_BUILD_ROOT%{php_sysconfdir}/kolabformat.ini <<EOF
+cat > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/kolabformat.ini <<EOF
 ; Enable kolabformat extension module
 extension=kolabformat.so
 EOF
+%endif
 
+%if %{with python}
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
 %py_postclean
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -151,16 +165,20 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/kolabxml
-%{_libdir}/*.so
+%{_libdir}/libkolabxml.so
 %{_libdir}/cmake/Libkolabxml
 
+%if %{with php}
 %files -n %{php_name}-kolabformat
 %defattr(644,root,root,755)
-%config(noreplace) %{php_sysconfdir}/kolabformat.ini
+%config(noreplace) %{php_sysconfdir}/conf.d/kolabformat.ini
 %attr(755,root,root) %{php_extensiondir}/kolabformat.so
 %{php_data_dir}/kolabformat.php
+%endif
 
+%if %{with python}
 %files -n python-kolabformat
 %defattr(644,root,root,755)
 %attr(755,root,root) %{py_sitedir}/_kolabformat.so
 %{py_sitedir}/kolabformat.py[co]
+%endif

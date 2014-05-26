@@ -4,6 +4,7 @@
 %bcond_without	php		# PHP bindings
 %bcond_without	python		# Python bindings
 
+%define		php_name	php55
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.0.1

@@ -5,7 +5,7 @@
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.0.1
-Release:	3
+Release:	4
 License:	LGPL v3+
 Group:		Libraries
 URL:		http://www.kolab.org/
@@ -20,7 +20,7 @@ BuildRequires:	kde4-kdelibs-devel
 BuildRequires:	kde4-kdepimlibs-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libuuid-devel
-BuildRequires:	php-devel >= 5.3
+BuildRequires:	%{php_name}-devel >= 45.3
 BuildRequires:	python-devel
 BuildRequires:	qt4-build
 BuildRequires:	rpmbuild(macros) >= 1.600
@@ -49,7 +49,7 @@ Requires:	kde4-kdelibs-devel
 Requires:	kde4-kdepimlibs-devel
 Requires:	libstdc++-devel
 Requires:	libuuid-devel
-Requires:	php-devel >= 5.3
+Requires:	%{php_name}-devel >= 5.3
 Requires:	python-devel
 Requires:	swig
 Requires:	xerces-c-devel
@@ -58,13 +58,13 @@ Requires:	xsd
 %description devel
 Development headers for the Kolab XML libraries.
 
-%package -n php-kolabformat
+%package -n %{php_name}-kolabformat
 Summary:	PHP bindings for libkolabxml
 Group:		Development/Languages/PHP
 Requires:	%{name} = %{version}-%{release}
 %{?requires_php_extension}
 
-%description -n php-kolabformat
+%description -n %{php_name}-kolabformat
 The PHP kolabformat package offers a comprehensible PHP library using
 the bindings provided through libkolabxml.
 
@@ -104,12 +104,14 @@ cd build
 # Make sure libkolabxml.so.* is found, otherwise the tests fail
 export LD_LIBRARY_PATH=$(pwd)/src
 cd tests
-./bindingstest ||:
-./conversiontest ||:
-./parsingtest ||:
-cd ..
-php -d enable_dl=On -dextension=src/php/kolabformat.so src/php/test.php ||:
-%{__python} src/python/test.py ||:
+./bindingstest
+./conversiontest
+./parsingtest
+cd ../src/php
+php -d 'enable_dl=On' '-dextension=../../src/php/kolabformat.so' test.php
+cd ../python
+# FIXME
+%{__python} test.py ||
 %endif
 
 %install
@@ -149,7 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.so
 %{_libdir}/cmake/Libkolabxml
 
-%files -n php-kolabformat
+%files -n %{php_name}-kolabformat
 %defattr(644,root,root,755)
 %config(noreplace) %{php_sysconfdir}/kolabformat.ini
 %attr(755,root,root) %{php_extensiondir}/kolabformat.so

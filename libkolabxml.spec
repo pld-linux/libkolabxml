@@ -34,6 +34,7 @@ BuildRequires:	swig-python
 %endif
 %if %{with php}
 BuildRequires:	%{php_name}-cli
+BuildRequires:	%{php_name}-program
 BuildRequires:	%{php_name}-devel
 BuildRequires:	swig-php
 %endif

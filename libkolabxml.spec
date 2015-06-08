@@ -7,12 +7,12 @@
 %define		php_name	php55
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
-Version:	1.0.1
-Release:	10
+Version:	1.1.0
+Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	7adccfa0ed91ac954c815e8d13f334ee
+# Source0-md5:	a7166537c869ec065613f6b15a3ab86a
 URL:		http://www.kolab.org/
 BuildRequires:	QtCore-devel
 BuildRequires:	boost-devel
@@ -34,6 +34,9 @@ BuildRequires:	swig-python
 %endif
 %if %{with php}
 BuildRequires:	%{php_name}-cli
+%if %{with tests}
+BuildRequires:	%{php_name}-pcre
+%endif
 BuildRequires:	%{php_name}-program
 BuildRequires:	%{php_name}-devel
 BuildRequires:	swig-php

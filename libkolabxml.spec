@@ -7,12 +7,12 @@
 %define		php_name	php55
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
-Version:	1.1.0
-Release:	8
+Version:	1.1.6
+Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	a7166537c869ec065613f6b15a3ab86a
+# Source0-md5:	eec4b8bf117a6e263eed9ee800ae3aa6
 URL:		http://www.kolab.org/
 BuildRequires:	QtCore-devel
 BuildRequires:	boost-devel
@@ -125,13 +125,13 @@ cd ..
 %if %{with php}
 cd src/php
 php -d 'enable_dl=On' '-dextension=../../src/php/kolabformat.so' test.php
-cd ..
+cd ../..
 %endif
 %if %{with python}
-cd python
+cd src/python
 # FIXME
 %{__python} test.py ||
-cd ..
+cd ../..
 %endif
 %endif
 

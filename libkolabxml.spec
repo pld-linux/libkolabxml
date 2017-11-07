@@ -1,14 +1,14 @@
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
-%bcond_without	php		# PHP bindings
+%bcond_with	php		# PHP bindings
 %bcond_without	python		# Python bindings
 
 %define		php_name	php55
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.1.6
-Release:	2
+Release:	3
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz

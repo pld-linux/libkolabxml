@@ -8,7 +8,7 @@
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.1.6
-Release:	1
+Release:	2
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
@@ -19,8 +19,6 @@ BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6
 BuildRequires:	curl-devel
 BuildRequires:	e2fsprogs-devel
-BuildRequires:	kde4-kdelibs-devel
-BuildRequires:	kde4-kdepimlibs-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libuuid-devel
 BuildRequires:	qt4-build
@@ -57,8 +55,6 @@ Requires:	boost-devel
 Requires:	cmake >= 2.6
 Requires:	curl-devel
 Requires:	e2fsprogs-devel
-Requires:	kde4-kdelibs-devel
-Requires:	kde4-kdepimlibs-devel
 Requires:	libstdc++-devel
 Requires:	libuuid-devel
 Requires:	swig

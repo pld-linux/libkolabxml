@@ -8,13 +8,14 @@
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.1.6
-Release:	19
+Release:	20
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
 # Source0-md5:	eec4b8bf117a6e263eed9ee800ae3aa6
 URL:		http://www.kolab.org/
 BuildRequires:	QtCore-devel
+BuildRequires:	QtTest-devel
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6
 BuildRequires:	curl-devel
@@ -102,7 +103,8 @@ cd build
 %endif
 %if %{with python}
 	-DPYTHON_BINDINGS=ON \
-	-DPYTHON_INCLUDE_DIRS=%{python_include} \
+	-DPYTHON_INCLUDE_DIR=%{py_incdir} \
+	-DPYTHON_LIBRARY=$(echo %{_libdir}/libpython2.7.so*) \
 	-DPYTHON_INSTALL_DIR=%{py_sitedir} \
 %endif
 	..

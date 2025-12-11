@@ -8,7 +8,7 @@
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.1.6
-Release:	20
+Release:	21
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
@@ -92,6 +92,7 @@ install -d build
 cd build
 %cmake \
 	-Wno-fatal-errors -Wno-errors \
+	-DBoost_NO_BOOST_CMAKE=ON \
 	-DCMAKE_SKIP_RPATH=ON \
 	-DCMAKE_PREFIX_PATH=%{_libdir} \
 	-DINCLUDE_INSTALL_DIR=%{_includedir}/kolabxml \

@@ -1,0 +1,11 @@
+--- libkolabxml-1.1.6/CMakeLists.txt~	2016-09-02 10:50:26.000000000 +0200
++++ libkolabxml-1.1.6/CMakeLists.txt	2026-11-10 23:24:47.518252931 +0100
+@@ -93,7 +93,7 @@
+ configure_file(libkolabxml-version.h.cmake "${CMAKE_BINARY_DIR}/libkolabxml-version.h" @ONLY)
+ 
+ set(Boost_USE_MULTITHREADED ON)
+-find_package(Boost REQUIRED COMPONENTS thread system)
++find_package(Boost REQUIRED COMPONENTS thread)
+ if (Boost_FOUND)
+     message("Found boost in ${Boost_INCLUDE_DIRS}")
+ endif (Boost_FOUND)

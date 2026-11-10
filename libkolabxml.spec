@@ -2,27 +2,28 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 %bcond_with	php		# PHP bindings
-%bcond_without	python		# Python bindings
+%bcond_with	python		# Python bindings
 
 %define		php_name	php55
 Summary:	Kolab XML format collection parser library
 Name:		libkolabxml
 Version:	1.1.6
-Release:	21
+Release:	22
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://mirror.kolabsys.com/pub/releases/%{name}-%{version}.tar.gz
 # Source0-md5:	eec4b8bf117a6e263eed9ee800ae3aa6
+Patch0:		boost-1.90.patch
 URL:		http://www.kolab.org/
-BuildRequires:	QtCore-devel
-BuildRequires:	QtTest-devel
+BuildRequires:	Qt5Core-devel
+BuildRequires:	Qt5Test-devel
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6
 BuildRequires:	curl-devel
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libuuid-devel
-BuildRequires:	qt4-build
+BuildRequires:	qt5-build
 BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	swig
 BuildRequires:	xerces-c-devel
@@ -36,8 +37,8 @@ BuildRequires:	%{php_name}-cli
 %if %{with tests}
 BuildRequires:	%{php_name}-pcre
 %endif
-BuildRequires:	%{php_name}-program
 BuildRequires:	%{php_name}-devel
+BuildRequires:	%{php_name}-program
 BuildRequires:	swig-php
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -51,7 +52,7 @@ bindings are available through sub-packages.
 Summary:	Kolab XML library development headers
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	QtCore-devel
+Requires:	Qt5Core-devel
 Requires:	boost-devel
 Requires:	cmake >= 2.6
 Requires:	curl-devel
@@ -86,12 +87,14 @@ the bindings provided through libkolabxml.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 install -d build
 cd build
 %cmake \
 	-Wno-fatal-errors -Wno-errors \
+	-DQT5_BUILD=ON \
 	-DBoost_NO_BOOST_CMAKE=ON \
 	-DCMAKE_SKIP_RPATH=ON \
 	-DCMAKE_PREFIX_PATH=%{_libdir} \
@@ -164,8 +167,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc DEVELOPMENT NEWS README
-%attr(755,root,root) %{_libdir}/libkolabxml.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkolabxml.so.1
+%{_libdir}/libkolabxml.so.*.*
+%ghost %{_libdir}/libkolabxml.so.1
 
 %files devel
 %defattr(644,root,root,755)
